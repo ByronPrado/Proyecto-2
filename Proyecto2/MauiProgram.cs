@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
+
 namespace Proyecto2;
 
 public static class MauiProgram
