@@ -9,14 +9,17 @@
             Spacing="25">
             
             <Frame>
-                <Label Text="agregar los montos dps dps"/>
+                <Label Text="{Binding ValorBoleta}"/>
             </Frame>
             <Grid
                 ColumnDefinitions="Auto,*"
                 ColumnSpacing="10"
                 >
                 <Label Text="valor boleta $:" Grid.Column="0"/>
-                <Entry Text="{Binding ValorBoleta}" Grid.Column="1"/>
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="0"
+                    Text="{Binding ValorBoleta}" Grid.Column="1"/>
             </Grid>
             <Grid
                 ColumnDefinitions="Auto,*,*,*"
@@ -32,23 +35,21 @@
                 ColumnDefinitions="Auto,*"
                 ColumnSpacing="10"
                 >
-                <Label Text="Propina: 0%" Grid.Column="0"/>
-                <Slider Maximum ="100"
+                <Label Text="Propina:" Grid.Column="0"/>
+                <Label Text="{Binding Propina}" Grid.Column="1"/>
+                <Slider Maximum ="50"
                     Minimum ="0"
-                    Grid.Column="1"/>
+                    Grid.Column="2"/>
             </Grid>
 
             <Grid 
             ColumnDefinitions="Auto,*,Auto"
             ColumnSpacing="10">
-            <Button Text="-" Grid.Column="0" Command="{Binding DisminuirPersonas}" />
+            <Button Text="-" Grid.Column="0" Command="{Binding DisminuirDivisorCommand}"/>
 
-            <Label Text="1" 
-                HorizontalOptions="Center" 
-                VerticalOptions="Center" 
-                Grid.Column="1" />
+            <Label Text="{Binding DivisorMonto}" Grid.Column="1"/>
 
-            <Button Text="+" Grid.Column="2" Command="{Binding AumentarPersonas}" />
+            <Button Text="+" Grid.Column="2" Command="{Binding AumentarDivisorCommand}"/>
             </Grid>            
         </VerticalStackLayout>
     </ScrollView>

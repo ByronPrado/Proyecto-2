@@ -7,29 +7,43 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private string _valorBoleta;
-    private int DivisorMonto;
-
+    [ObservableProperty]
+    private string _divisorMonto;
+    [ObservableProperty]
+    private string _propina;
     public MainViewModel()
     {
-        ValorBoleta = "0.000";
-        DivisorMonto = 1;
+        _valorBoleta = "0.0";
+        _divisorMonto = "1";
+        _propina = "0";
+
     }
+
+
     [RelayCommand]
-    public void MontoBoleta()
+    public void MontoBoleta(string nuevoValor)
     {
-        ValorBoleta = "100000.00";
+        ValorBoleta = nuevoValor;
     }
-    public void AumentarPersonas()
-    {  
-        DivisorMonto++;
-        
-    }
-    public void DisminuirPersonas()
-    {  
-        if (DivisorMonto > 1)
+
+    [RelayCommand]
+    public void DisminuirDivisor()
+    {
+        if (int.TryParse(DivisorMonto, out int divisor) && divisor > 1)
         {
-            DivisorMonto--;
+            divisor--;
+            DivisorMonto = divisor.ToString();
         }
     }
+    [RelayCommand]
+    public void AumentarDivisor()
+    {
+        if (int.TryParse(DivisorMonto, out int divisor))
+        {
+            divisor++;
+            DivisorMonto = divisor.ToString();
+        }
+    }
+   
 
 }
