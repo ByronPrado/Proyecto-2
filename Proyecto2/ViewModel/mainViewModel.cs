@@ -27,13 +27,14 @@ public partial class MainViewModel : ObservableObject
 
     [RelayCommand]
     public void CalcularMontoTotal()
-    {
+    {   
+        // Esta funcion calcula el monto total de la boleta y la propina
         if (DivisorMonto > 0)
         {
             double propina = ValorBoleta * PropinaPorcentaje / 100;
             double boleta = (ValorBoleta + propina) / DivisorMonto;
             MontoTotal = (int)Math.Round(boleta, 0);
-            PropinaMonto = (int)Math.Round(propina/DivisorMonto, 0);
+            PropinaMonto = (int)Math.Round(propina / DivisorMonto, 0);
         }
         else
         {
@@ -41,42 +42,59 @@ public partial class MainViewModel : ObservableObject
             PropinaMonto = 0;
         }
     }
+
     [RelayCommand]
-    public void MontoBoleta(int nuevoValor)
+    public void CantidadPersonas(string op)
     {
-        if (nuevoValor >= 0)
+        if (op == "-")
         {
-            ValorBoleta = nuevoValor;
+            if (DivisorMonto > 1)
+            {
+                DivisorMonto--;
+                CalcularMontoTotal();
+            }
+        }
+        else if (op == "+")
+        {
+            DivisorMonto++;
+            CalcularMontoTotal();
+        }
+    }
+
+    [RelayCommand]
+    public void EditarPropina(string nuevoValor)
+    {
+        //esta funcion la utilizamos para los botones con propinas predefinidas
+        if (int.TryParse(nuevoValor, out int porcentaje))
+        {
+            PropinaPorcentaje = porcentaje;
+        }
+        else
+        {
+            PropinaPorcentaje = 0; // Si no se puede convertir lo dejamos en 0
+        }
+        CalcularMontoTotal();
+    }
+
+    partial void OnPropinaPorcentajeChanged(int value)
+    {
+        // Esta funcion la utilizamos para los sliders ya que cambia directo el valor 
+        CalcularMontoTotal();
+    }
+    partial void OnValorBoletaChanged(int value)
+    {
+        Console.WriteLine($"ValorBoleta tipo: {value.GetType()}");
+        if (value >= 0)
+        {
+            ValorBoleta = value;
             CalcularMontoTotal();
         }
         else
         {
-            nuevoValor = 0;
-            ValorBoleta = nuevoValor;
-        }
-    }
-
-    [RelayCommand]
-    public void DisminuirDivisor()
-    {
-        if (DivisorMonto > 1)
-        {
-            DivisorMonto--;
+            value = 0;
+            ValorBoleta = value;
             CalcularMontoTotal();
         }
-    }
-    [RelayCommand]
-    public void AumentarDivisor()
-    {
-        DivisorMonto++;
-        CalcularMontoTotal();        
-    }
-
-    [RelayCommand]
-    public void EditarPropina(int nuevoValor)
-    {
-        PropinaPorcentaje = nuevoValor;
-        CalcularMontoTotal();
     }
 
 
