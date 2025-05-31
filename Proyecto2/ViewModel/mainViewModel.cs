@@ -6,44 +6,78 @@ namespace Proyecto2.ViewModel;
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string _valorBoleta;
+    private int _valorBoleta;
     [ObservableProperty]
-    private string _divisorMonto;
+    private int _divisorMonto;
     [ObservableProperty]
-    private string _propina;
+    private int _propinaPorcentaje;
+    [ObservableProperty]
+    private int _montoTotal;
+    [ObservableProperty]
+    private int _propinaMonto;
     public MainViewModel()
     {
-        _valorBoleta = "0.0";
-        _divisorMonto = "1";
-        _propina = "0";
+        _valorBoleta = 0;
+        _divisorMonto = 1;
+        _propinaPorcentaje = 0;
+        _montoTotal = 0;
+        _propinaMonto = 0;
 
     }
 
-
     [RelayCommand]
-    public void MontoBoleta(string nuevoValor)
+    public void CalcularMontoTotal()
     {
-        ValorBoleta = nuevoValor;
+        if (DivisorMonto > 0)
+        {
+            double propina = ValorBoleta * PropinaPorcentaje / 100;
+            double boleta = (ValorBoleta + propina) / DivisorMonto;
+            MontoTotal = (int)Math.Round(boleta, 0);
+            PropinaMonto = (int)Math.Round(propina/DivisorMonto, 0);
+        }
+        else
+        {
+            MontoTotal = 0;
+            PropinaMonto = 0;
+        }
+    }
+    [RelayCommand]
+    public void MontoBoleta(int nuevoValor)
+    {
+        if (nuevoValor >= 0)
+        {
+            ValorBoleta = nuevoValor;
+            CalcularMontoTotal();
+        }
+        else
+        {
+            nuevoValor = 0;
+            ValorBoleta = nuevoValor;
+        }
     }
 
     [RelayCommand]
     public void DisminuirDivisor()
     {
-        if (int.TryParse(DivisorMonto, out int divisor) && divisor > 1)
+        if (DivisorMonto > 1)
         {
-            divisor--;
-            DivisorMonto = divisor.ToString();
+            DivisorMonto--;
+            CalcularMontoTotal();
         }
     }
     [RelayCommand]
     public void AumentarDivisor()
     {
-        if (int.TryParse(DivisorMonto, out int divisor))
-        {
-            divisor++;
-            DivisorMonto = divisor.ToString();
-        }
+        DivisorMonto++;
+        CalcularMontoTotal();        
     }
-   
+
+    [RelayCommand]
+    public void EditarPropina(int nuevoValor)
+    {
+        PropinaPorcentaje = nuevoValor;
+        CalcularMontoTotal();
+    }
+
 
 }

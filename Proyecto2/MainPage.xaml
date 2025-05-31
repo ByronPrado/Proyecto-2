@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Proyecto2.MainPage">
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="Proyecto2.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -9,7 +9,15 @@
             Spacing="25">
             
             <Frame>
-                <Label Text="{Binding ValorBoleta}"/>
+                <Grid 
+                    RowDefinitions="Auto,*,*"
+                    RowSpacing="10"
+                    >
+                <Label Text="{Binding ValorBoleta}" Grid.Row="0"/>
+                <Label Text="{Binding MontoTotal}" TextColor="blue" Grid.Row="1"/>
+                <Label Text="{Binding PropinaMonto}" TextColor="red" Grid.Row="2"/>
+                </Grid>
+
             </Frame>
             <Grid
                 ColumnDefinitions="Auto,*"
@@ -17,10 +25,13 @@
                 >
                 <Label Text="valor boleta $:" Grid.Column="0"/>
                 <Entry
+                    x:Name="ValorBoletaEntry"
                     Keyboard="Numeric"
                     Placeholder="0"
-                    Text="{Binding ValorBoleta}" Grid.Column="1"/>
-            </Grid>
+                    Text="{Binding ValorBoleta,Mode=TwoWay}" 
+                    Grid.Column="1"/>
+           </Grid>
+            
             <Grid
                 ColumnDefinitions="Auto,*,*,*"
                 ColumnSpacing="10"
@@ -36,9 +47,10 @@
                 ColumnSpacing="10"
                 >
                 <Label Text="Propina:" Grid.Column="0"/>
-                <Label Text="{Binding Propina}" Grid.Column="1"/>
+                <Label Text="{Binding PropinaPorcentaje}" Grid.Column="1"/>
                 <Slider Maximum ="50"
-                    Minimum ="0"
+                    Minimum ="0"                    
+                    Value="{Binding PropinaPorcentaje, Mode=TwoWay}"
                     Grid.Column="2"/>
             </Grid>
 
