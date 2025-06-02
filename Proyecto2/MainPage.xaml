@@ -33,7 +33,7 @@
                     x:Name="ValorBoletaEntry"
                     Keyboard="Numeric"
                     Placeholder="0"
-                    Text="{Binding ValorBoleta,Mode=TwoWay}" 
+                    Text="{Binding ValorBoletaEntry,Mode=TwoWay}" 
                     Grid.Column="1"
                     />
            </Grid>
@@ -56,19 +56,32 @@
                 <Label Text="{Binding PropinaPorcentaje, StringFormat='{0}%'}" Grid.Column="1"/>
                 
                 <Slider Maximum ="50"
-                    Minimum ="0"                    
+                    Minimum ="0"
+                    Margin="30,0,-20,0"                    
                     Value="{Binding PropinaPorcentaje, Mode=TwoWay}"
                     Grid.Column="2"/>
             </Grid>
 
             <Grid 
-            ColumnDefinitions="Auto,*,Auto"
+            ColumnDefinitions="Auto,*"
             ColumnSpacing="10">
-            <Button Text="-" Grid.Column="0" Command="{Binding CantidadPersonasCommand}" CommandParameter ="-"/>
 
-            <Label Text="{Binding DivisorMonto}" Grid.Column="1"/>
+            <Label Text="Dividir el total:" Grid.Column="0"/>
 
-            <Button Text="+" Grid.Column="2" Command="{Binding CantidadPersonasCommand}" CommandParameter ="+"/>
+                <Grid
+                    Grid.Column="0"
+                    ColumnDefinitions="Auto,*,Auto"
+                    Margin="110,0,0,0"
+                    HorizontalOptions="Start"
+                    ColumnSpacing="25">
+
+                <Button Text="-" Grid.Column="0" Command="{Binding CantidadPersonasCommand}" CommandParameter ="-"/>
+
+                <Label Text="{Binding DivisorMonto}" Grid.Column="1" VerticalOptions="Center"/>
+
+                <Button Text="+" Grid.Column="2" Command="{Binding CantidadPersonasCommand}" CommandParameter ="+"/>
+
+                </Grid>
             </Grid>            
         </VerticalStackLayout>
     </ScrollView>

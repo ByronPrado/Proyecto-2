@@ -8,6 +8,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private int _valorBoleta;
     [ObservableProperty]
+    private int _valorBoletaEntry;
+    [ObservableProperty]
     private int _divisorMonto;
     [ObservableProperty]
     private int _propinaPorcentaje;
@@ -18,6 +20,7 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel()
     {
         _valorBoleta = 0;
+        _valorBoletaEntry = 0;
         _divisorMonto = 1;
         _propinaPorcentaje = 0;
         _montoTotal = 0;
@@ -27,19 +30,21 @@ public partial class MainViewModel : ObservableObject
 
     [RelayCommand]
     public void CalcularMontoTotal()
-    {   
-        // Esta funcion calcula el monto total de la boleta y la propina
+    {
         if (DivisorMonto > 0)
         {
-            double propina = ValorBoleta * PropinaPorcentaje / 100;
-            double boleta = (ValorBoleta + propina) / DivisorMonto;
+            double propina = ValorBoletaEntry * PropinaPorcentaje / 100;
+            double boleta = (ValorBoletaEntry + propina) / DivisorMonto;
+            double subtotal = ValorBoletaEntry / DivisorMonto;
             MontoTotal = (int)Math.Round(boleta, 0);
             PropinaMonto = (int)Math.Round(propina / DivisorMonto, 0);
+            ValorBoleta = (int)Math.Round(subtotal, 0);
         }
         else
         {
             MontoTotal = 0;
             PropinaMonto = 0;
+            ValorBoleta = 0;
         }
     }
 
@@ -64,35 +69,33 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void EditarPropina(string nuevoValor)
     {
-        //esta funcion la utilizamos para los botones con propinas predefinidas
         if (int.TryParse(nuevoValor, out int porcentaje))
         {
             PropinaPorcentaje = porcentaje;
         }
         else
         {
-            PropinaPorcentaje = 0; // Si no se puede convertir lo dejamos en 0
+            PropinaPorcentaje = 0;
         }
         CalcularMontoTotal();
     }
 
     partial void OnPropinaPorcentajeChanged(int value)
     {
-        // Esta funcion la utilizamos para los sliders ya que cambia directo el valor 
         CalcularMontoTotal();
     }
-    partial void OnValorBoletaChanged(int value)
+    partial void OnValorBoletaEntryChanged(int value)
     {
-        Console.WriteLine($"ValorBoleta tipo: {value.GetType()}");
+        Console.WriteLine($"ValorBoletaEntry tipo: {value.GetType()}");
         if (value >= 0)
         {
-            ValorBoleta = value;
+            ValorBoletaEntry = value;
             CalcularMontoTotal();
         }
         else
         {
             value = 0;
-            ValorBoleta = value;
+            ValorBoletaEntry = value;
             CalcularMontoTotal();
         }
     }
