@@ -86,7 +86,6 @@ public partial class MainViewModel : ObservableObject
     }
     partial void OnValorBoletaEntryChanged(int value)
     {
-        Console.WriteLine($"ValorBoletaEntry tipo: {value.GetType()}");
         if (value >= 0)
         {
             ValorBoletaEntry = value;
