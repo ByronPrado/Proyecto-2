@@ -6,11 +6,12 @@
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
-            Spacing="25">
-            
+            Spacing="25"
+            Margin="0,50,0,0">
+                       
             <Frame>
-                <Grid 
-                    RowDefinitions="Auto,*,*"
+                <Grid
+                    Margin="0,0,0,10"                    RowDefinitions="Auto,*,*"
                     ColumnDefinitions="Auto,Auto"
                     ColumnSpacing="10"
                     RowSpacing="10"
